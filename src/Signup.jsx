@@ -10,7 +10,7 @@ function Signup() {
   const navigate = useNavigate();
   // useNavigate -> is a method or a fucntion used for navigations. which is given by react-router-dom
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/");
   };
   const handleSaveFullName = (event) => {
     // console.log("Full Name");
