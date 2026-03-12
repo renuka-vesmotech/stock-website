@@ -18,9 +18,11 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(
-      `Login Successfull. These are details email: ${email} password: ${password}`,
-    );
+    console.log(email, password);
+
+    // alert(
+    //   `Login Successfull. These are details email: ${email} password: ${password}`,
+    // );
     navigate("/home");
   };
 
