@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,9 +17,16 @@ function Login() {
     setPassowrd(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(email, password);
+    const res = await axios.post("http://localhost:8000/login", {
+      email: email,
+      password: password,
+    });
+    console.log(res);
+
+    localStorage.setItem("token", res.data);
 
     // alert(
     //   `Login Successfull. These are details email: ${email} password: ${password}`,

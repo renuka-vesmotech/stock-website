@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // 1. when user submitted the form -> alert popup with a success message
 // 2. after that it should be redirected to login page
@@ -26,16 +28,22 @@ function Signup() {
     setPassowrd(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(email, "eamil");
-    console.log(password, "passowrd");
-    console.log(fullName, "full name");
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
 
-    alert(
-      `Signup Successfull. These are details name:${fullName} email: ${email} password: ${password}`,
-    );
-    navigate("/login");
+      const res = await axios.post("http://localhost:8000/signup", {
+        name: fullName,
+        email: email,
+        password: password,
+      });
+      if (res?.status === 201) {
+        toast.success("Account created Successfully");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("User account already exists");
+    }
   };
   return (
     <div className="page">

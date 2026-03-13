@@ -4,6 +4,7 @@ import EachStock from "./EachStock.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
+  let token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [allStocks, setAllStocks] = useState([]);
   const [stocks, setStocks] = useState(stocksData);
@@ -22,12 +23,24 @@ const Home = () => {
   };
 
   const fetchStocks = async () => {
-    const res = await axios.get(`http://localhost:8000/stocks`);
+    const res = await axios.get(`http://localhost:8000/stocks`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setAllStocks(res?.data);
   };
   useEffect(() => {
-    fetchStocks();
+    if (token) {
+      fetchStocks();
+    }
   }, []);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token]);
 
   // ternary operator -> condtion ? statement1 :statement2
   // condtion ->allStocks?.length >0  ? code :"No Data Found"
@@ -42,6 +55,14 @@ const Home = () => {
           }}
         >
           Add Stock
+        </button>
+        <button
+          onClick={() => {
+            localStorage.clear();
+            navigate("/");
+          }}
+        >
+          Logout
         </button>
       </div>
 
